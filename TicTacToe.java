@@ -1,6 +1,8 @@
 import java.util.*;
 class Tic_Tac_Toe_Game
 {
+    static final int PLAYER=1;
+    static final int COMPUTER=0;
     static char symbol;
     static char player_symbol;
     static char computer_symbol;
@@ -38,6 +40,16 @@ class Tic_Tac_Toe_Game
             System.out.println("invalid char");
     }
 
+    public void tossForGame(){
+        Random rand1 = new Random();
+        int toss=rand1.nextInt(2);
+        if(toss==PLAYER){
+            System.out.println("Player won the toss");
+        }
+        else{
+            System.out.println("Computer won the toss");
+        }
+    }
 
     public void showBoard(){
         for(int i=1;i<board.length;i++)
@@ -130,6 +142,7 @@ class Tic_Tac_Toe_Game
         Tic_Tac_Toe_Game t1=new Tic_Tac_Toe_Game();
         t1.creating_Board_UC1();
         t1.choose_X_O_UC2();
+        t1.tossForGame();
         t1.playerTurn();
 
     }
