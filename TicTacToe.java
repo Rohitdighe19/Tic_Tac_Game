@@ -10,7 +10,7 @@ class Tic_Tac_Toe_Game
     static Scanner sc=new Scanner(System.in);
 
 
-    public void creating_Board_UC1(){
+    public static void creating_Board_UC1(){
         System.out.println("Board with number position ");
         for(int i=1;i<board.length;i++)
         {
@@ -19,39 +19,33 @@ class Tic_Tac_Toe_Game
         }
     }
 
-    public void choose_X_O_UC2(){
-        System.out.println("Want you want X or O");
-        symbol=sc.next().charAt(0);
-        if(symbol=='X' || symbol=='x')
-        {
-            player_symbol=symbol;
-            computer_symbol='O';
-            System.out.println("Your choose  "+player_symbol);
-            System.out.println("Computer choose "+computer_symbol);
-        }
-        else if(symbol=='O' || symbol=='o')
-        {
-            player_symbol=symbol;
-            computer_symbol='X';
-            System.out.println("You choose "+player_symbol);
-            System.out.println("Computer choose "+computer_symbol);
-        }
-        else
-            System.out.println("invalid char");
-    }
-
-    public void tossForGame(){
-        Random rand1 = new Random();
-        int toss=rand1.nextInt(2);
-        if(toss==PLAYER){
-            System.out.println("Player won the toss");
-        }
-        else{
-            System.out.println("Computer won the toss");
+    public static void choose_X_O_UC2(){
+        while(true){
+            System.out.println("Want you want X or O");
+            symbol=sc.next().charAt(0);
+            if(symbol=='X' || symbol=='x')
+            {
+                player_symbol=symbol;
+                computer_symbol='O';
+                System.out.println("Your choose  "+player_symbol);
+                System.out.println("Computer choose "+computer_symbol);
+                break;
+            }
+            else if(symbol=='O' || symbol=='o')
+            {
+                player_symbol=symbol;
+                computer_symbol='X';
+                System.out.println("You choose "+player_symbol);
+                System.out.println("Computer choose "+computer_symbol);
+                break;
+            }
+            else
+                System.out.println("invalid char");
         }
     }
 
-    public void showBoard(){
+
+    public static void showBoard(){
         for(int i=1;i<board.length;i++)
         {
             System.out.println(board[i]+"|"+board[(++i)]+"|"+board[(++i)]);
@@ -59,7 +53,20 @@ class Tic_Tac_Toe_Game
         }
     }
 
-    public void placeMove(int position,char symbol) {
+    public static void tossForGame(){
+        Random rand1 = new Random();
+        int toss=rand1.nextInt(2);
+        if(toss==PLAYER){
+            System.out.println("Player won the toss");
+            playerTurn();
+        }
+        else if(toss==COMPUTER)
+            System.out.println("Computer won the toss");
+        else
+            System.out.println("Not valid");
+    }
+
+    public static void placeMove(int position,char symbol) {
         switch(position) {
             case 1:
                 board[1] = symbol;
@@ -95,7 +102,7 @@ class Tic_Tac_Toe_Game
     }
 
 
-    public  boolean isValidMove(int position){
+    public static  boolean isValidMove(int position){
         switch(position) {
             case 1:
                 return(board[1] == ' ');
@@ -120,7 +127,7 @@ class Tic_Tac_Toe_Game
         }
     }
 
-    public void playerTurn(){
+    public static void playerTurn(){
         int playerInput;
         while (true) {
             System.out.println("Where would you like to play? (1-9)");
@@ -135,15 +142,45 @@ class Tic_Tac_Toe_Game
     }
 
 
+    public static boolean hasContestantWon(char symbol) {
+        if((board[1]==symbol && board[2]==symbol && board[3]==symbol) ||
+                (board[4]==symbol && board[5]==symbol && board[6]==symbol) ||
+                (board[7]==symbol && board[8]==symbol && board[9]== symbol) ||
+
+                (board[1]==symbol && board[4]==symbol && board[7]==symbol) ||
+                (board[2]==symbol && board[5]==symbol && board[8]==symbol) ||
+                (board[3]==symbol && board[6]==symbol && board[9]== symbol) ||
+
+                (board[1]==symbol && board[5]==symbol && board[9]==symbol) ||
+                (board[3]==symbol && board[5]==symbol && board[7]==symbol) ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isGameFinished() {
+
+        if (hasContestantWon(player_symbol)) {
+            System.out.println("Player wins!");
+            return true;
+        }
+
+        for (int i = 0; i < board.length; i++) {
+            if (board[i]== ' ') {
+                return false;
+            }
+        }
+        showBoard();
+        System.out.println("The game ended in a tie!");
+        return true;
+    }
 
 
     public static void main(String[] args)
     {
-        Tic_Tac_Toe_Game t1=new Tic_Tac_Toe_Game();
-        t1.creating_Board_UC1();
-        t1.choose_X_O_UC2();
-        t1.tossForGame();
-        t1.playerTurn();
+        creating_Board_UC1();
+        choose_X_O_UC2();
+        tossForGame();
 
     }
 }
