@@ -58,12 +58,29 @@ class Tic_Tac_Toe_Game
         int toss=rand1.nextInt(2);
         if(toss==PLAYER){
             System.out.println("Player won the toss");
-            playerTurn();
+            while(true){
+                playerTurn();
+                if (isGameFinished())
+                    break;
+                computerTurn();
+                if (isGameFinished())
+                    break;
+            }
         }
-        else if(toss==COMPUTER)
+        else if(toss==COMPUTER){
             System.out.println("Computer won the toss");
+            while(true){
+                computerTurn();
+                if (isGameFinished())
+                    break;
+                playerTurn();
+                if (isGameFinished())
+                    break;
+            }
+        }
         else
             System.out.println("Not valid");
+
     }
 
     public static void placeMove(int position,char symbol) {
@@ -142,9 +159,21 @@ class Tic_Tac_Toe_Game
     }
 
 
+    public static void computerTurn(){
+        Random rand = new Random();
+        int computerMove;
+        while (true){
+            computerMove = rand.nextInt(9) + 1;
+            if (isValidMove(computerMove)) {
+                break;
+            }
+        }
+        System.out.println("Computer choose " + computerMove);
+        placeMove(computerMove, computer_symbol);
+    }
+
     public static boolean hasContestantWon(char symbol) {
-        if((board[1]==symbol && board[2]==symbol && board[3]==symbol) ||
-                (board[4]==symbol && board[5]==symbol && board[6]==symbol) ||
+        if((board[1]==symbol && board[2]==symbol && board[3]==symbol) ||          (board[4]==symbol && board[5]==symbol && board[6]==symbol) ||
                 (board[7]==symbol && board[8]==symbol && board[9]== symbol) ||
 
                 (board[1]==symbol && board[4]==symbol && board[7]==symbol) ||
@@ -162,6 +191,11 @@ class Tic_Tac_Toe_Game
 
         if (hasContestantWon(player_symbol)) {
             System.out.println("Player wins!");
+            return true;
+        }
+
+        if (hasContestantWon(computer_symbol)) {
+            System.out.println("Computer wins!");
             return true;
         }
 
